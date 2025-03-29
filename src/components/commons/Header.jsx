@@ -2,6 +2,7 @@ import { LeftArrow } from "neetoicons";
 import { Typography } from "neetoui";
 import { useHistory } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { keys } from "ramda";
 // import { useContext } from "react";
 
 // import CartItemsContext from "src/contexts/CartItemsContext";
@@ -9,7 +10,7 @@ import useCartItemsStore from "stores/useCartItemsStore";
 
 const Header = ({ title, shouldShowBackButton = true, actionBlock}) => {
   const history = useHistory();
-  const cartItemsCount = useCartItemsStore(store => store.cartItems.length);
+  const cartItemsCount = useCartItemsStore(store =>keys(store.cartItems).length);
 
   return (
     <div className="m-2">

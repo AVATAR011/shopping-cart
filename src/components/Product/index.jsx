@@ -33,7 +33,7 @@ const Product = () =>{
         fetchProduct();
     },[]);
 
-    const {name, description, mrp, offerPrice, imageUrls, imageUrl} = product;
+    const {name, description, mrp, offerPrice, imageUrls, imageUrl, availableQuantity} = product;
     const totalDiscount = mrp - offerPrice;
     const discountPercentage = ((totalDiscount/mrp)*100).toFixed(1);
     if(isError) return <PageNotFound />
@@ -61,7 +61,7 @@ const Product = () =>{
                 <Typography>MRP: {mrp}</Typography>
                 <Typography className="font-semibold">Offer price: {offerPrice}</Typography>
                 <Typography className="font-semibold text-green-600"s>{discountPercentage}% off</Typography>
-                <AddToCart {...{ slug }} />
+                <AddToCart {...{availableQuantity, slug }} />
             </div>
         </div>
     </>
