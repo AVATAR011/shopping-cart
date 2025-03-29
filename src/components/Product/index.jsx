@@ -1,12 +1,13 @@
 import { append, isNotNil } from "ramda";
 import { useEffect, useState } from "react";
-import { Typography, Spinner } from "neetoui";
+import { Typography, Button } from "neetoui";
 import { useParams, useHistory } from "react-router-dom";
 import AddToCart from "components/commons/AddToCart";
-
+import routes from "routes";
 import Carousel from "./Carousel";
 import productsApi from "apis/products";
 import { Header, PageNotFound, PageLoader } from "components/commons";
+import useSelectedQuantity from "hooks/useSelectedQuantity";
 
 const Product = () =>{
     const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +16,8 @@ const Product = () =>{
     const history = useHistory();
 
     const {slug} = useParams();
+
+    const {selectedQuantity, setSelectedQuantity} = useSelectedQuantity(slug);
 
     const fetchProduct = async () =>{
         try{
@@ -48,7 +51,7 @@ const Product = () =>{
         <Header title={name} />
         <div className="flex gap-4 mt-6">
             <div className="w-2/5">
-                <div className="flex justify-center gap-16">
+                <div className="m-16 flex justify-center gap-16">
                     {isNotNil(imageUrls) ? (
                         <Carousel  title={name} imageUrls={append(imageUrl, imageUrls)} />
                     ) : (
@@ -61,7 +64,16 @@ const Product = () =>{
                 <Typography>MRP: {mrp}</Typography>
                 <Typography className="font-semibold">Offer price: {offerPrice}</Typography>
                 <Typography className="font-semibold text-green-600"s>{discountPercentage}% off</Typography>
-                <AddToCart {...{availableQuantity, slug }} />
+                <div className="flex space-x-10">
+                    <AddToCart {...{availableQuantity, slug }} />
+                    <Button
+                        className = "bg-neutral-800 hover:bg-neutral-950"
+                        label="Buy now"
+                        size="large"
+                        to={routes.checkout}
+                        onClick={() => setSelectedQuantity(selectedQuantity || 1)}
+                    />
+                </div>
             </div>
         </div>
     </>

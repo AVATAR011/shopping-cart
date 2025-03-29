@@ -8,6 +8,7 @@ import Product from "components/Product";
 import ProductList from "components/ProductList";
 import PageNotFound from "components/commons/PageNotFound";
 import CartItemsContext from "./contexts/CartItemsContext";
+import Cart from "components/Cart";
 
 import "./App.css";
 import { set } from "ramda";
@@ -17,16 +18,17 @@ const App = () => {
 
     return(
         <>
-        <div className="flex space-x-2">
+        {/* <div className="flex space-x-2">
             <NavLink exact activeClassName="underline font-bold" to="/">
                 Home
             </NavLink>
             <NavLink exact activeClassName="underline font-bold" to="/product">
                 Product
             </NavLink>
-        </div>
+        </div> */}
         <CartItemsContext.Provider value={[cartItems, setCartItems]}>
         <Switch>
+            <Route exact component={Cart} path={routes.cart}/>
             <Route exact component={ProductList} path={routes.products.index} />
             <Route exact component={Product} path={routes.products.show} />
             <Redirect exact from={routes.root} to={routes.products.index} />
